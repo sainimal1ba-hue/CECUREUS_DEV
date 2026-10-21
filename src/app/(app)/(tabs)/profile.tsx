@@ -20,6 +20,7 @@ import { ArticleCard } from '@/components/article-card';
 import { EmergencyBanner } from '@/components/emergency-banner';
 import { AppText, Avatar, Button, Card, Chip, Screen, SectionHeader } from '@/components/ui';
 import { getEnv } from '@/config/env';
+import { listAllBookings } from '@/features/booking/list-all-bookings';
 import { splitBookings } from '@/features/booking/split-bookings';
 import { useLocalCollection } from '@/hooks/use-local';
 import { useQuery } from '@/hooks/use-query';
@@ -33,7 +34,7 @@ const MODE_LABEL = { audio: 'Phone Call', video: 'Video Call', chat: 'Chat' } as
 export default function ProfileScreen() {
   const { user, signOut } = useAuth();
   const api = useApi();
-  const bookings = useQuery(() => api.bookings.list(), []);
+  const bookings = useQuery((signal) => listAllBookings(api.bookings.list, signal), []);
   const assessments = useLocalCollection(() => assessmentLogStore.all());
   const goals = useLocalCollection(() => goalStore.all());
   const read = useLocalCollection(() => readArticleStore.all());

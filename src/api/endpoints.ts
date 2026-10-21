@@ -113,7 +113,8 @@ export function createEndpoints(client: ApiClient) {
           // Booking writes get a longer timeout; a timeout is retried with the same key.
           timeoutMs: 30000,
         }),
-      list: (page?: number) => client.request('bookings', pageSchema(bookingSchema), { query: { page } }),
+      list: (page?: number, signal?: AbortSignal) =>
+        client.request('bookings', pageSchema(bookingSchema), { query: { page }, signal }),
       cancel: (id: string, reason: string) =>
         client.request(`bookings/${encodeURIComponent(id)}/cancel`, bookingSchema, {
           method: 'POST',

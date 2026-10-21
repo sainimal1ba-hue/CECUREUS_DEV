@@ -6,6 +6,7 @@ import { Alert, Linking, Modal, ScrollView, StyleSheet, View } from 'react-nativ
 import { friendlyMessage } from '@/api/errors';
 import type { Booking } from '@/api/schemas';
 import { AppText, Button, Card, Chip, EmptyState, ErrorState, LoadingState, Screen } from '@/components/ui';
+import { listAllBookings } from '@/features/booking/list-all-bookings';
 import { splitBookings } from '@/features/booking/split-bookings';
 import { useQuery } from '@/hooks/use-query';
 import { formatDateTime } from '@/lib/date';
@@ -23,7 +24,7 @@ const CANCEL_REASONS = ['Schedule conflict', 'Feeling better', 'Want a different
 
 export default function SessionsScreen() {
   const api = useApi();
-  const query = useQuery(() => api.bookings.list(), []);
+  const query = useQuery((signal) => listAllBookings(api.bookings.list, signal), []);
   const [tab, setTab] = useState<'upcoming' | 'past'>('upcoming');
   const [cancelling, setCancelling] = useState<Booking | null>(null);
   const [reason, setReason] = useState<string | null>(null);

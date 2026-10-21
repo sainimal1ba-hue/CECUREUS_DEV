@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { AppText, Card, Chip, LoadingState, Screen } from '@/components/ui';
 import { useLocalCollection } from '@/hooks/use-local';
+import { listAllBookings } from '@/features/booking/list-all-bookings';
 import { useQuery } from '@/hooks/use-query';
 import { activityStore, assessmentLogStore, moodStore } from '@/local/stores';
 import { addDays } from '@/lib/date';
@@ -18,7 +19,7 @@ export default function ProgressScreen() {
   const moods = useLocalCollection(() => moodStore.all());
   const activities = useLocalCollection(() => activityStore.all());
   const assessments = useLocalCollection(() => assessmentLogStore.all());
-  const bookings = useQuery(() => api.bookings.list(), []);
+  const bookings = useQuery((signal) => listAllBookings(api.bookings.list, signal), []);
 
   if (moods.loading) return <LoadingState />;
   const trend = moodTrend(moods.items, range);
