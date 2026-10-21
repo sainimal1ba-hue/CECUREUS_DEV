@@ -46,7 +46,7 @@ export default function ProfileScreen() {
   const recent = splitBookings(items).past.filter((b) => b.status === 'completed').slice(0, 3);
 
   function confirmLogout() {
-    Alert.alert('Log out?', 'You will need to sign in again with a one-time code.', [
+    Alert.alert('Log out?', 'You will need your user ID and password to sign in again.', [
       { text: 'Cancel', style: 'cancel' },
       { text: 'Log out', style: 'destructive', onPress: () => void signOut() },
     ]);
