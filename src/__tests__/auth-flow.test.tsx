@@ -378,6 +378,11 @@ describe('session lifecycle', () => {
     await signInDirect(server);
     renderRouter(APP_DIR, { initialUrl: '/profile' });
     fireEvent.press(await screen.findByTestId('logout'));
+    expect(alert).toHaveBeenCalledWith(
+      'Log out?',
+      'You will need your user ID and password to sign in again.',
+      expect.any(Array),
+    );
     const buttons = alert.mock.calls[0][2]!;
     await act(async () => {
       await buttons.find((b) => b.text === 'Log out')!.onPress!();
